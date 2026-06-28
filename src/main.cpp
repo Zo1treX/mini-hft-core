@@ -11,6 +11,7 @@ int main() {
     };
 
     std::cout << "Order id: " << order.id << std::endl;
+    std::cout << "Side: " << mini_hft::to_string(order.side) << std::endl;
     std::cout << "Price: " << order.price << std::endl;
     std::cout << "Quantity: " << order.quantity << std::endl;
 
