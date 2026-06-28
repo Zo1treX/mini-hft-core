@@ -17,7 +17,12 @@ The goal of this project is to gradually implement:
 Week 1:
 - basic CMake project
 - CLion/macOS development setup
-- simple executable target
+- header-only `mini_hft` library
+- `Order` model
+- `Side` enum
+- order validation helpers
+- simple matching helpers
+- tests via `assert` and CTest
 
 ## Requirements
 
@@ -30,5 +35,18 @@ Week 1:
 ## Build
 
 ```bash
-cmake -S . -B build
+cmake -S . -B build -G Ninja
 cmake --build build
+```
+
+## Run
+
+```bash
+./build/mini_hft_core
+```
+
+## Test
+
+```bash
+ctest --test-dir build --output-on-failure
+```

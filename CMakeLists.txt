@@ -7,7 +7,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_library(mini_hft INTERFACE
-        tests/order_tests.cpp)
+        tests/order_tests.cpp
+)
 
 target_include_directories(mini_hft INTERFACE
         include

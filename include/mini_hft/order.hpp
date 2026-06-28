@@ -1,8 +1,9 @@
 #pragma once
 
-#include <cstdint>
 #include <ostream>
 #include <string_view>
+
+#include "mini_hft/types.hpp"
 
 namespace mini_hft {
 
@@ -12,10 +13,10 @@ namespace mini_hft {
     };
 
     struct Order {
-        std::uint64_t id{};
+        OrderId id{};
         Side side{};
-        std::uint64_t price{};
-        std::uint64_t quantity{};
+        Price price{};
+        Quantity quantity{};
 
         bool operator==(const Order& other) const = default;
     };
@@ -50,6 +51,10 @@ namespace mini_hft {
         return Side::Buy;
     }
 
+    constexpr bool has_valid_id(const Order& order) {
+        return order.id > 0;
+    }
+
     constexpr bool has_valid_price(const Order& order) {
         return order.price > 0;
     }
@@ -59,9 +64,13 @@ namespace mini_hft {
     }
 
     constexpr bool is_valid(const Order& order) {
-        return order.id > 0
+        return has_valid_id(order)
             && has_valid_price(order)
             && has_valid_quantity(order);
+    }
+
+    constexpr std::uint64_t notional(const Order& order) {
+        return order.price * order.quantity;
     }
 
     inline std::ostream& operator<<(std::ostream& out, const Order& order) {

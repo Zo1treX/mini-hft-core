@@ -2,6 +2,7 @@
 #include <sstream>
 #include <string>
 
+#include "mini_hft/matching.hpp"
 #include "mini_hft/order.hpp"
 
 void test_side_to_string() {
@@ -87,11 +88,32 @@ void test_order_validation() {
         .quantity = 0
     };
 
+    assert(has_valid_id(valid));
+    assert(has_valid_price(valid));
+    assert(has_valid_quantity(valid));
     assert(is_valid(valid));
 
+    assert(!has_valid_id(zero_id));
     assert(!is_valid(zero_id));
+
+    assert(!has_valid_price(bad_price));
     assert(!is_valid(bad_price));
+
+    assert(!has_valid_quantity(bad_quantity));
     assert(!is_valid(bad_quantity));
+}
+
+void test_notional() {
+    using namespace mini_hft;
+
+    Order order{
+        .id = 1,
+        .side = Side::Buy,
+        .price = 100,
+        .quantity = 10
+    };
+
+    assert(notional(order) == 1000);
 }
 
 void test_order_output() {
@@ -110,13 +132,28 @@ void test_order_output() {
     assert(out.str() == "Order{id=42, side=Sell, price=150, quantity=7}");
 }
 
+void test_constexpr_helpers() {
+    using namespace mini_hft;
+
+    static_assert(to_string(Side::Buy) == "Buy");
+    static_assert(to_string(Side::Sell) == "Sell");
+
+    static_assert(is_buy(Side::Buy));
+    static_assert(is_sell(Side::Sell));
+
+    static_assert(opposite(Side::Buy) == Side::Sell);
+    static_assert(opposite(Side::Sell) == Side::Buy);
+}
+
 int main() {
     test_side_to_string();
     test_side_helpers();
     test_opposite_side();
     test_order_equality();
     test_order_validation();
+    test_notional();
     test_order_output();
+    test_constexpr_helpers();
 
     return 0;
 }
