@@ -9,3 +9,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 add_executable(mini_hft_core
         src/main.cpp
 )
+
+target_include_directories(mini_hft_core PRIVATE
+    include
+)
