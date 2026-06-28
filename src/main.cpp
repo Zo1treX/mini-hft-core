@@ -10,10 +10,15 @@ int main() {
         .quantity = 10
     };
 
-    std::cout << "Order id: " << order.id << std::endl;
-    std::cout << "Side: " << mini_hft::to_string(order.side) << std::endl;
-    std::cout << "Price: " << order.price << std::endl;
-    std::cout << "Quantity: " << order.quantity << std::endl;
+    std::cout << order << std::endl;
+
+    if (mini_hft::is_valid(order)) {
+        std::cout << "Order is valid" << std::endl;
+    } else {
+        std::cout << "Order is invalid" << std::endl;
+    }
+
+    std::cout << "Opposite side: " << mini_hft::to_string(mini_hft::opposite(order.side)) << std::endl;
 
     return 0;
 }
